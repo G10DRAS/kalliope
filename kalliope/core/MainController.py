@@ -59,7 +59,7 @@ class MainController:
         self.machine = Machine(model=self, states=MainController.states, initial='init', queued=True)
 
         # define transitions
-        self.machine.add_transition('start_trigger', 'init', 'starting_trigger')
+        self.machine.add_transition('start_trigger', ['init', 'analysing_order'], 'starting_trigger')
         self.machine.add_transition('unpause_trigger', ['starting_trigger', 'analysing_order'], 'unpausing_trigger')
         self.machine.add_transition('play_ready_sound', 'unpausing_trigger', 'playing_ready_sound')
         self.machine.add_transition('wait_trigger_callback', 'playing_ready_sound', 'waiting_for_trigger_callback')
@@ -154,7 +154,8 @@ class MainController:
         """
         logger.debug("Entering state: %s" % self.state)
         # pause the trigger process
-        self.trigger_instance.pause()
+        # self.trigger_instance.pause()
+        self.trigger_instance.stop()
         # start listening for an order
         self.order_listener_callback_called = False
         self.order_listener = OrderListener(callback=self.order_listener_callback)
@@ -199,7 +200,9 @@ class MainController:
             if self.settings.default_synapse is not None:
                 SynapseLauncher.start_synapse(name=self.settings.default_synapse, brain=self.brain)
         # return to the state "unpausing_trigger"
-        self.unpause_trigger()
+        # start back the trigger process
+        print "here"
+        self.start_trigger()
 
     def _get_default_trigger(self):
         """

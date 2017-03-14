@@ -78,6 +78,12 @@ class Snowboy(Thread):
         logger.debug("Unpausing snowboy process")
         self.detector.paused = False
 
+    def stop(self):
+        """
+        Kill the Snowboy process
+        """
+        self.detector.kill_received = True
+
     @staticmethod
     def _ignore_stderr():
         """

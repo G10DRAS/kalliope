@@ -128,7 +128,7 @@ class HotwordDetector(Thread):
             "Error: hotwords in your models (%d) do not match the number of " \
             "callbacks (%d)" % (self.num_hotwords, len(self.detected_callback))
 
-        logger.debug("detecting...")
+        logger.debug("Snowboy detecting...")
 
         while not self.kill_received:
             if not self.paused:
@@ -152,7 +152,7 @@ class HotwordDetector(Thread):
                     if callback is not None:
                         callback()
 
-        logger.debug("finished.")
+        logger.debug("Snowboy process killed")
 
     def terminate(self):
         """
