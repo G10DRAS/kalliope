@@ -152,6 +152,7 @@ class HotwordDetector(Thread):
                     if callback is not None:
                         callback()
 
+        self.terminate()
         logger.debug("Snowboy process killed")
 
     def terminate(self):
